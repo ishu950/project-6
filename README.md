@@ -47,3 +47,128 @@ while game_is_on:
 
 
 screen.exitonclick()
+
+
+
+
+
+
+
+
+
+
+
+### food.py
+
+    def __init__(self):
+        super().__init__()
+        self.shape("circle")
+        self.penup()
+        self.shapesize(stretch_len=0.5, stretch_wid=0.5)
+        self.color("blue")
+        self.speed("fastest")
+        self.refresh()
+
+    def refresh(self):
+        random_x = random.randint(-280, 280)
+        random_y = random.randint(-280, 280)
+        self.goto(random_x, random_y)
+
+
+
+
+## questionmodel.py
+
+from turtle import Turtle
+
+starting_pos = [(0, 0), (-20, 0), (-40, 0)]
+move_forward = 20
+U = 90
+D = 270
+L = 180
+R = 0
+
+
+class Snake:   ##create snake
+    def __init__(self):
+        self.segment = []
+        self.create_snake()
+        self.head = self.segment[0]
+
+    def create_snake(self):
+        for position in starting_pos:
+            self.add_segment(position)
+
+    def add_segment(self,position):
+        tim = Turtle("square")
+        tim.color("white")
+        tim.penup()
+        tim.goto(position)
+        self.segment.append(tim)
+    def extend(self):
+        self.add_segment(self.segment[-1].position())
+
+
+    def move(self):
+        for seg_num in range(len(self.segment) - 1, 0, -1):
+            new_x = self.segment[seg_num - 1].xcor()
+            new_y = self.segment[seg_num - 1].ycor()
+            self.segment[seg_num].goto(new_x, new_y)
+
+        self.head.forward(move_forward)
+
+    def up(self):
+        if self.head.heading() != D:
+            self.head.setheading(U)
+
+    def down(self):
+        if self.head.heading() != U:
+            self.head.setheading(D)
+
+    def left(self):
+        if self.head.heading() != L:
+            self.head.setheading(R)
+
+    def right(self):
+        if self.head.heading() != R:
+            self.head.setheading(L)
+
+
+
+
+
+### scoreboard
+
+from turtle import Turtle
+ALIGNMENT="center"
+FONT=("Arial", 20, "normal")
+
+
+class Scoreboard(Turtle):
+
+
+    def __init__(self):
+        super().__init__()
+        self.score=0
+        self.color("white")
+        self.penup()
+        self.goto(0,270)
+        self.hideturtle()
+        self.score_update()
+
+    def score_update(self):
+        self.write(f"score is : {self.score}",align=ALIGNMENT, font=FONT)
+
+
+    def game_over(self):
+        self.goto(0,0)
+        self.write(" GAME IS OVER ", align=ALIGNMENT, font=FONT)
+
+
+
+
+    def increase_score(self):
+        self.score += 10
+        self.clear()
+        self.score_update()
+
