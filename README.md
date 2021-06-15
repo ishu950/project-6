@@ -1,7 +1,7 @@
 # project-6
 snake game
 
-
+## main.py
 from turtle import Screen
 from questionmodel import Snake
 from food import Food
